@@ -1,0 +1,14 @@
+{
+  "name": "vectorization-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Raster-to-SVG vectorization CLI for the vectorization skill",
+  "main": "vectorize.mjs",
+  "dependencies": {
+    "@neplex/vectorizer": "^0.1.0",
+    "imagetracerjs": "^1.2.6",
+    "potrace": "^2.1.8",
+    "sharp": "^0.35.4"
+  }
+}

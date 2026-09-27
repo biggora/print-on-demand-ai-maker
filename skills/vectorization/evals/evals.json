@@ -1,0 +1,90 @@
+{
+  "skill_name": "vectorization",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "у меня есть сгенерированный принт тигра skills/vectorization-workspace/inputs/tiger-print.png (5500x5500, прозрачный фон). нужно перевести его в вектор, чтобы можно было печатать DTF любого размера без потери качества. сделай svg и покажи что получилось",
+      "expected_output": "Clean SVG with viewBox and transparent background (no white box), reasonable file size, visually faithful to the tiger; preview PNG shown; report of engine/settings/size/fidelity.",
+      "files": [
+        "skills/vectorization-workspace/inputs/tiger-print.png"
+      ],
+      "assertions": [
+        "An SVG file was produced",
+        "SVG root has a viewBox (scales to any print size)",
+        "Background stays transparent (>=40% transparent, source ~48%)",
+        "Visual fidelity vs source >= 0.95",
+        "SVG under 15 MB",
+        "A PNG preview of the vector result was produced"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Хочу напечатать этого тигра шелкографией, у типографии лимит 6 цветов. Файл skills/vectorization-workspace/inputs/tiger-print.png. Подготовь вектор на 6 плашечных цветов и разложи по отдельным файлам на каждый цвет (цветоделение), плюс список цветов в hex.",
+      "expected_output": "SVG limited to <=6 spot colors (plus transparency), non-overlapping per-color separation SVGs, hex palette list with coverage, preview image.",
+      "files": [
+        "skills/vectorization-workspace/inputs/tiger-print.png"
+      ],
+      "assertions": [
+        "Composite SVG produced",
+        "Composite uses at most 6 distinct fill colors",
+        "Composite has a viewBox",
+        "Background stays transparent (not printed as ink)",
+        "Composite fidelity vs source >= 0.90",
+        "Between 2 and 6 per-color separation SVGs, each single-color",
+        "Separations do not overlap (<2% of inked pixels in 2+ layers)",
+        "Reply lists the spot colors as hex codes (>=2)",
+        "Palette has no near-duplicate inks (min RGB distance >= 60)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "have this black & white badge design skills/vectorization-workspace/inputs/stay-wild-stamp.jpg — which tracer gives the cleanest svg for it? try the options and give me the best one, text has to stay crisp",
+      "expected_output": "Comparison of multiple engines with previews/contact sheet, a single recommended SVG (likely potrace bw: 1 fill, small file), crisp text, justified recommendation; notes the off-white background handling.",
+      "files": [
+        "skills/vectorization-workspace/inputs/stay-wild-stamp.jpg"
+      ],
+      "assertions": [
+        "best.svg produced",
+        "best.svg is 1-2 colors (true B&W, no gray fringe layers)",
+        "best.svg has a viewBox",
+        "best.svg fidelity vs source >= 0.97 (text crisp)",
+        "best.svg under 150 KB",
+        "At least 2 tracers actually compared (named in reply)",
+        "best.svg compact: under 80 KB",
+        "compare auto-pick \"best\" is not a bloated trace (<1 MB)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "принт skills/vectorization-workspace/inputs/wild-heart-5x6.png получился маленький, всего 1000x1200. для печати нужен 4500x5400. увеличь его через вектор чтобы края и надпись были четкие, фон должен остаться прозрачным",
+      "expected_output": "Trace to SVG, export a 4500x5400 transparent PNG at 300 DPI with crisp text edges; preview shown; report of sizes.",
+      "files": [
+        "skills/vectorization-workspace/inputs/wild-heart-5x6.png"
+      ],
+      "assertions": [
+        "Print PNG at exactly 4500x5400",
+        "PNG has an alpha channel (transparent background possible)",
+        "PNG carries 300 DPI metadata",
+        "Export matches source when scaled back down (fidelity >= 0.95)",
+        "Text edges crisper than a Lanczos upscale (transition pixels < 50% of Lanczos)",
+        "Letter shapes match ground truth (text-mask IoU >= 0.97)"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "got this low-res badge skills/vectorization-workspace/inputs/stay-wild-900.jpg (900px square) and I need a print file for a square placement - our square print size is 4500x4500. can you get it there without it going blurry?",
+      "expected_output": "Trace (potrace bw), export 4500x4500 PNG, 300 DPI, crisp text; preview/zoom shown.",
+      "files": [
+        "skills/vectorization-workspace/inputs/stay-wild-900.jpg"
+      ],
+      "assertions": [
+        "Print PNG at exactly 4500x4500",
+        "PNG has an alpha channel (transparent background possible)",
+        "PNG carries 300 DPI metadata",
+        "Export matches source when scaled back down (fidelity >= 0.95)",
+        "Text edges crisper than a Lanczos upscale (transition pixels < 50% of Lanczos)",
+        "Letter shapes match ground truth (text-mask IoU >= 0.97)"
+      ]
+    }
+  ]
+}
